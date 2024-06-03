@@ -18,6 +18,25 @@ import requests
 import parsel
 import csv
 
+f = open('2406TongHuaShunStock/data.csv', mode='w', encoding='utf-8', newline='')
+csv_writer = csv.DictWriter(f, fieldnames=[
+    'Code',
+    'Name',
+    'Price',
+    'Price Range(%)',
+    'Price Range',
+    'Speed(%)',
+    'Turnover(%)',
+    'Volume Ratio',
+    'Volatility(%)',
+    'Turn Volume',
+    'Floating Stock',
+    'Market Value',
+    'PE Ratio'
+])
+
+csv_writer.writeheader() # 写入表头
+
 res = requests.get(url=url, headers=headers, cookies=cookie)
 # res = requests.get(url=url, headers=headers)
 
@@ -28,7 +47,7 @@ res = requests.get(url=url, headers=headers, cookies=cookie)
 
 html = res.text
 # print(html) # 内容不一致，可能存在反爬
-# 1.尝试加入cookie
+# 尝试加入cookie
 
 # 提取数据内容
 ## re正则
@@ -81,5 +100,7 @@ for tr in trs:
         'Market Value': trade_info[10],
         'PE Ratio': trade_info[11]
     }
+
+    csv_writer.writerow(dict)
 
     print(dict)
