@@ -4,21 +4,23 @@
 """
 # 模拟浏览器向url发送请求
 headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0'
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0'
 }
 
 cookie = {
-    'v': 'AzH75iak852ZTF-JqAZESD13QLzOHqU3T5BJpBNGKKIWlV8oW261YN_iWVCg'
+    'v': 'BCJKSes7cKsQoXDvWFY4hl8KAFsA5QDQAI8A0gCJAOQAXaSGAG0AOABXAXnD'
 }
 
 # 设置目标url
-url = 'https://q.10jqka.com.cn/index/index/board/all/field/zdf/order/desc/page/2/ajax/1/'
+# url = 'https://q.10jqka.com.cn/index/index/board/all/field/zdf/order/desc/page/2/ajax/1/'
+url = 'https://q.10jqka.com.cn'
 
 import requests
 import parsel
 import csv
 
 f = open('2406TongHuaShunStock/data.csv', mode='w', encoding='utf-8', newline='')
+# 设置股票相关信息，包括代码，名字，价格，波动，成交等，和网页提供的信息保持一致即可
 csv_writer = csv.DictWriter(f, fieldnames=[
     'Code',
     'Name',
@@ -47,6 +49,7 @@ res = requests.get(url=url, headers=headers, cookies=cookie)
 
 html = res.text
 # print(html) # 内容不一致，可能存在反爬
+
 # 尝试加入cookie
 
 # 提取数据内容
@@ -74,6 +77,7 @@ html = res.text
     <td><a class="j_addStock" title="加自选" href="javascript:void(0);"><img src="http://i.thsi.cn/images/q/plus_logo.png" alt=""></a></td>
 </tr>
 """
+
 # print(html)
 selector = parsel.Selector(html)
 # 从class="m-table"的table中提取tr标签
@@ -81,8 +85,8 @@ trs = selector.css('.m-table tr')[1:] # 标题行舍弃
 for tr in trs:
     stock_info = tr.css('td a::text').getall() # 股票信息
     trade_info = tr.css('td::text').getall() # 交易信息
-    # print(stock_info)
-    # print(trade_info)
+    print(stock_info)
+    print(trade_info)
 
     # 数据保存
     dict = {
