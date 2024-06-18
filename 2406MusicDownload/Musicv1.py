@@ -39,6 +39,7 @@ def MusicDownload():
 
     # url = 'https://www.gequbao.com/api/play_url?id=8236063&json=1'
     # saveMusic('离别开出花', url)
+    # return
 
     # 搜索并下载
     def search_download(word):
