@@ -68,4 +68,16 @@ for reply in replies:
 
     csv_writer.writerow(_dict)
 
+"""
+多页处理
+pagination_str
+w_rid: 加密参数, 需要进行逆向分析
+wts 时间戳
+time.time() 获取当前时间戳
+"""
+
+# 提取下一页参数
+next_offset = json_data['data']['cursor']['pagination_reply']['next_offset']
+print(next_offset)
+
 
